@@ -62,9 +62,32 @@ class ViTExtractor:
                            vit_base_patch16_224]
         :return: the model
         """
+        import os
+        import subprocess
+        
         torch.hub._validate_not_a_forked_repo = lambda a, b, c: True
         if 'v2' in model_type:
-            model = torch.hub.load('facebookresearch/dinov2', model_type)
+            # Use specific stable commit for DINOv2 to avoid Python 3.10+ syntax issues
+            commit_hash = "e1277af2ba9496fbadf7aec6eba56e8d882d1e35"
+            repo_dir = f"/tmp/dinov2_stable_{commit_hash[:7]}"
+            
+            # Clone and checkout specific commit if not already done
+            if not os.path.exists(repo_dir):
+                print(f"Setting up DINOv2 stable version (commit {commit_hash[:7]})...")
+                try:
+                    subprocess.run(["git", "clone", "https://github.com/facebookresearch/dinov2.git", repo_dir], 
+                                 check=True, capture_output=True)
+                    subprocess.run(["git", "checkout", commit_hash], cwd=repo_dir, 
+                                 check=True, capture_output=True)
+                    print("DINOv2 stable version ready!")
+                except subprocess.CalledProcessError as e:
+                    print(f"Git command failed: {e}")
+                    # Fallback: try with os.system
+                    os.system(f"git clone https://github.com/facebookresearch/dinov2.git {repo_dir}")
+                    os.system(f"cd {repo_dir} && git checkout {commit_hash}")
+            
+            # Load from local directory
+            model = torch.hub.load(repo_dir, model_type, source='local')
         elif 'dino' in model_type:
             model = torch.hub.load('facebookresearch/dino:main', model_type)
         else:  # model from timm -- load weights from timm to dino model (enables working on arbitrary size images).
