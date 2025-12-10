@@ -1,4 +1,4 @@
-# ViT-VS: On the Applicability of Pretrained Vision Transformer Features for Generalizable Visual Servoing
+# ViT-VS: On the Applicability of Pretrained Vision Transformer Features for Generalizable Visual Servoing [IROS 2025]
 
 <div align="center">
   <img src="docs/static/videos/sorting.gif" alt="ViT-VS Teaser" width="800px">
