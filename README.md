@@ -1,7 +1,7 @@
 # ViT-VS: On the Applicability of Pretrained Vision Transformer Features for Generalizable Visual Servoing [IROS 2025]
 
 <div align="center">
-  <img src="docs/static/videos/sorting.gif" alt="ViT-VS Teaser" width="800px">
+  <img src="docs/static/images/teaser.jpg" alt="ViT-VS Teaser" width="800px">
   <p>
     <a href="https://alessandroscherl.github.io/ViT-VS/">
       <img src="https://img.shields.io/badge/Project-Page-blue?style=flat-square" alt="Project Page">
